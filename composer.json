@@ -2,7 +2,7 @@
     "name": "duncan3dc/oauth",
     "type": "library",
     "description": "Handles basic OAuth/OAuth2 authentication along with classes for common services",
-    "keywords": ["oauth","oauth2","twitter","lovefilm","instagram"],
+    "keywords": ["oauth","oauth2","twitter","lovefilm","instagram","github"],
     "homepage": "https://github.com/duncan3dc/php-oauth",
     "license": "Apache-2.0",
     "authors": [{
