@@ -1,9 +1,10 @@
 <?php
 
 namespace duncan3dc\OAuth;
-use \duncan3dc\Helpers\Cache;
-use \duncan3dc\Helpers\Helper;
-use \duncan3dc\Helpers\Json;
+
+use duncan3dc\Helpers\Cache;
+use duncan3dc\Helpers\Helper;
+use duncan3dc\Helpers\Json;
 
 class OAuth {
 
@@ -79,7 +80,8 @@ class OAuth {
 
 
     public function get($key) {
-        global $sql;
+
+        $sql = Sql::getInstance();
 
         if(Cache::check("data")) {
             $data = Cache::get("data");
@@ -98,7 +100,8 @@ class OAuth {
 
 
     public function set($params,$value=false) {
-        global $sql;
+
+        $sql = Sql::getInstance();
 
         if(!is_array($params)) {
             $params = [$params => $value];
@@ -125,7 +128,6 @@ class OAuth {
 
 
     public function fetch($url,$data=false) {
-        global $system;
 
         $this->setToken();
 

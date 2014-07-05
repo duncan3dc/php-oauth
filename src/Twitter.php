@@ -1,7 +1,8 @@
 <?php
 
 namespace duncan3dc\OAuth;
-use \duncan3dc\Helpers\Helper;
+
+use duncan3dc\Helpers\Helper;
 
 class Twitter extends OAuth {
 

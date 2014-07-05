@@ -1,8 +1,9 @@
 <?php
 
 namespace duncan3dc\OAuth;
-use \duncan3dc\Helpers\Helper;
-use \duncan3dc\Helpers\Json;
+
+use duncan3dc\Helpers\Helper;
+use duncan3dc\Helpers\Json;
 
 class GitHub extends OAuth2 {
 
@@ -44,14 +45,13 @@ class GitHub extends OAuth2 {
 
 
     public function post($url,$data) {
-        global $system;
 
         $headers = array(
             "Accept"        =>  "application/vnd.github.v3+json",
             "User-Agent"    =>  $this->username,
         );
 
-        $url = $system->url($url,[
+        $url = Helper::url($url,[
             "access_token"  =>  $this->get("token"),
         ]);
 
