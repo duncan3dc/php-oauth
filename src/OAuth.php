@@ -23,7 +23,7 @@ class OAuth {
 
     public function __construct($options) {
 
-        $options = Helper::getOptions($options,[
+        $options = Helper::getOptions($options, [
             "requestUrl"    =>  "",
             "accessUrl"     =>  "",
             "authoriseUrl"  =>  "",
@@ -34,7 +34,7 @@ class OAuth {
             "authtype"      =>  OAUTH_AUTH_TYPE_AUTHORIZATION,
         ]);
 
-        $this->oauth = new \OAuth($options["authkey"],$options["secret"],OAUTH_SIG_METHOD_HMACSHA1,$options["authtype"]);
+        $this->oauth = new \OAuth($options["authkey"], $options["secret"], OAUTH_SIG_METHOD_HMACSHA1, $options["authtype"]);
         $this->type = $options["type"];
         $this->username = $options["username"];
 
@@ -87,11 +87,11 @@ class OAuth {
             $data = Cache::get("data");
 
         } else {
-            $data = $sql->select("oauth",[
+            $data = $sql->select("oauth", [
                 "type"      =>  $this->type,
                 "username"  =>  $this->username,
             ]);
-            Cache::set("data",$data);
+            Cache::set("data", $data);
 
         }
 
@@ -99,7 +99,7 @@ class OAuth {
     }
 
 
-    public function set($params,$value=false) {
+    public function set($params, $value = false) {
 
         $sql = Sql::getInstance();
 
@@ -107,7 +107,7 @@ class OAuth {
             $params = [$params => $value];
         }
 
-        $sql->insertOrUpdate("oauth",$params,[
+        $sql->insertOrUpdate("oauth", $params, [
             "type"      =>  $this->type,
             "username"  =>  $this->username,
         ]);
@@ -122,12 +122,12 @@ class OAuth {
         $token = $this->get("token");
         $secret = $this->get("secret");
 
-        return $this->oauth->setToken($token,$secret);
+        return $this->oauth->setToken($token, $secret);
 
     }
 
 
-    public function fetch($url,$data=false) {
+    public function fetch($url, $data = false) {
 
         $this->setToken();
 
@@ -137,7 +137,7 @@ class OAuth {
             $method = OAUTH_HTTP_METHOD_GET;
         }
 
-        $this->oauth->fetch($url,$data,$method,["Accept" => "application/json"]);
+        $this->oauth->fetch($url, $data, $method, ["Accept" => "application/json"]);
 
         $json = $this->oauth->getLastResponse();
 

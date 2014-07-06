@@ -10,11 +10,11 @@ class Sql {
         static::$class = $class;
     }
 
-    public static function getInstance($server=false) {
+    public static function getInstance($server = false) {
         if(!static::$class) {
             throw new \Exception("No SQL class specified for the OAuth project");
         }
-        return call_user_func(static::$class . "::getInstance",$server);
+        return call_user_func(static::$class . "::getInstance", $server);
     }
 
 }

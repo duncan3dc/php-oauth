@@ -8,47 +8,47 @@ use duncan3dc\Helpers\Json;
 class Instagram extends OAuth2 {
 
 
-	public function __construct($options) {
+    public function __construct($options) {
 
-		$options = Helper::getOptions($options,[
-			"client"	=>	"",
-			"secret"	=>	"",
-			"username"	=>	"",
-		]);
+        $options = Helper::getOptions($options, [
+            "client"    =>  "",
+            "secret"    =>  "",
+            "username"  =>  "",
+        ]);
 
-		parent::__construct([
-			"type"			=>	"instagram",
-			"client"		=>	$options["client"],
-			"secret"		=>	$options["secret"],
-			"username"		=>	$options["username"],
-			"authoriseUrl"	=>	"https://api.instagram.com/oauth/authorize",
-			"redirectUrl"	=>	"https://api.instagram.com/oauth/redirect",
-			"accessUrl"		=>	"https://api.instagram.com/oauth/access_token",
-		]);
+        parent::__construct([
+            "type"          =>  "instagram",
+            "client"        =>  $options["client"],
+            "secret"        =>  $options["secret"],
+            "username"      =>  $options["username"],
+            "authoriseUrl"  =>  "https://api.instagram.com/oauth/authorize",
+            "redirectUrl"   =>  "https://api.instagram.com/oauth/redirect",
+            "accessUrl"     =>  "https://api.instagram.com/oauth/access_token",
+        ]);
 
-	}
+    }
 
 
-	public function timeline($options=false) {
+    public function timeline($options = false) {
 
-		$options = Helper::getOptions($options,[
-			"min"	=>	false,
-			"limit"	=>	200,
-		]);
+        $options = Helper::getOptions($options, [
+            "min"   =>  false,
+            "limit" =>  200,
+        ]);
 
-		$url = "https://api.instagram.com/v1/users/self/feed";
+        $url = "https://api.instagram.com/v1/users/self/feed";
 
-		$params = array();
-		if($val = $options["min"]) {
-			$params["min_id"] = $val;
-		}
-		if($val = $options["limit"]) {
-			$params["count"] = $val;
-		}
+        $params = [];
+        if($val = $options["min"]) {
+            $params["min_id"] = $val;
+        }
+        if($val = $options["limit"]) {
+            $params["count"] = $val;
+        }
 
-		return $this->fetch($url,$params);
+        return $this->fetch($url, $params);
 
-	}
+    }
 
 
 }

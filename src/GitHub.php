@@ -10,7 +10,7 @@ class GitHub extends OAuth2 {
 
     public function __construct($options) {
 
-        $options = Helper::getOptions($options,[
+        $options = Helper::getOptions($options, [
             "username"  =>  false,
             "client"    =>  "",
             "secret"    =>  "",
@@ -23,7 +23,7 @@ class GitHub extends OAuth2 {
             "client"        =>  $options["client"],
             "secret"        =>  $options["secret"],
             "code"          =>  $options["code"],
-            "authoriseUrl"  =>  "https://github.com/login/oauth/authorize?scope=repo",
+            "authoriseUrl"  =>  "https://github.com/login/oauth/authorize?scope=repo,admin:repo_hook,admin:org",
             "redirectUrl"   =>  "http://developer.github.com/v3/",
             "accessUrl"     =>  "https://github.com/login/oauth/access_token",
         ]);
@@ -31,7 +31,7 @@ class GitHub extends OAuth2 {
     }
 
 
-    public function fetch($url,$data=false,$headers=false) {
+    public function fetch($url, $data = false, $headers = false) {
 
         if(!is_array($headers)) {
             $headers = [];
@@ -39,26 +39,26 @@ class GitHub extends OAuth2 {
         $headers["Accept"] = "application/vnd.github.v3+json";
         $headers["User-Agent"] = $this->username;
 
-        return parent::fetch($url,$data,$headers);
+        return parent::fetch($url, $data, $headers);
 
     }
 
 
-    public function post($url,$data) {
+    public function post($url, $data) {
 
-        $headers = array(
+        $headers = [
             "Accept"        =>  "application/vnd.github.v3+json",
             "User-Agent"    =>  $this->username,
-        );
+        ];
 
-        $url = Helper::url($url,[
+        $url = Helper::url($url, [
             "access_token"  =>  $this->get("token"),
         ]);
 
         $json = Helper::curl([
             "url"       =>  $url,
             "headers"   =>  $headers,
-        ],Json::encode($data));
+        ], Json::encode($data));
 
         return Json::decode($json);
 

@@ -9,9 +9,9 @@ class Lovefilm extends OAuth {
     protected $user;
 
 
-    public function __construct($options=false) {
+    public function __construct($options = false) {
 
-        $options = Helper::getOptions($options,[
+        $options = Helper::getOptions($options, [
             "authkey"   =>  "",
             "secret"    =>  "",
         ]);
@@ -45,7 +45,7 @@ class Lovefilm extends OAuth {
     }
 
 
-    public function getData($type=false) {
+    public function getData($type = false) {
 
         $url = $this->getUser();
         if($type) {

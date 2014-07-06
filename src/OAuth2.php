@@ -1,7 +1,6 @@
 <?php
 
 namespace duncan3dc\OAuth;
-
 use duncan3dc\Helpers\Cache;
 use duncan3dc\Helpers\Helper;
 use duncan3dc\Helpers\Json;
@@ -21,7 +20,7 @@ class OAuth2 {
 
     public function __construct($options) {
 
-        $options = Helper::getOptions($options,[
+        $options = Helper::getOptions($options, [
             "type"          =>  "",
             "username"      =>  "",
             "client"        =>  "",
@@ -48,12 +47,12 @@ class OAuth2 {
     public function authorise() {
 
         if($this->get("state") == OAuth::STATE_COMPLETE && !$this->get("token")) {
-            $this->set("state",OAuth::STATE_INIT);
+            $this->set("state", OAuth::STATE_INIT);
         }
 
         # If no action has been taken yet then request authorisation to the users account
         if($this->get("state") == OAuth::STATE_INIT) {
-            $url = Helper::url($this->authoriseUrl,[
+            $url = Helper::url($this->authoriseUrl, [
                 "client_id"     =>  $this->client,
                 "redirect_uri"  =>  $this->redirectUrl,
                 "response_type" =>  "code",
@@ -66,23 +65,24 @@ class OAuth2 {
 
         # If access has been requested, then check that it was granted
         if($this->get("state") == OAuth::STATE_ACCESS) {
-            $response = $system->curl($this->accessUrl,[
+            $response = Helper::curl($this->accessUrl, [
                 "client_id"     =>  $this->client,
                 "client_secret" =>  $this->secret,
                 "redirect_uri"  =>  $this->redirectUrl,
                 "grant_type"    =>  "authorization_code",
                 "code"          =>  $this->code,
             ]);
+            echo $response . "\n";
             try {
-                $data = $system->jsonDecode($response);
+                $data = Json::decode($response);
                 $token = $data["access_token"];
             } catch(\Exception $e) {
-                preg_match("/\baccess_token=([a-z0-9]+)\b/",$response,$matches);
+                preg_match("/\baccess_token=([a-z0-9]+)\b/", $response, $matches);
                 $token = $matches[1];
             }
 
             if(!$token) {
-                $this->set("state",OAuth::STATE_INIT);
+                $this->set("state", OAuth::STATE_INIT);
                 throw new \Exception("Failed to parse the access token from the response (" . $response . ")");
             }
 
@@ -105,11 +105,11 @@ class OAuth2 {
             $data = Cache::get("data");
 
         } else {
-            $data = $sql->select("oauth",[
+            $data = $sql->select("oauth", [
                 "type"      =>  $this->type,
                 "username"  =>  $this->username,
             ]);
-            Cache::set("data",$data);
+            Cache::set("data", $data);
 
         }
 
@@ -118,7 +118,7 @@ class OAuth2 {
     }
 
 
-    public function set($params,$value=false) {
+    public function set($params, $value = false) {
 
         $sql = Sql::getInstance();
 
@@ -126,7 +126,7 @@ class OAuth2 {
             $params = [$params => $value];
         }
 
-        $sql->insertOrUpdate("oauth",$params,[
+        $sql->insertOrUpdate("oauth", $params, [
             "type"      =>  $this->type,
             "username"  =>  $this->username,
         ]);
@@ -138,7 +138,7 @@ class OAuth2 {
     }
 
 
-    public function fetch($url,$data=false,$headers=false) {
+    public function fetch($url, $data = false, $headers = false) {
 
         if(!is_array($data)) {
             $data = [];
@@ -146,7 +146,7 @@ class OAuth2 {
         $data["access_token"] = $this->get("token");
 
         $json = Helper::curl([
-            "url"       =>  Helper::url($url,$data),
+            "url"       =>  Helper::url($url, $data),
             "headers"   =>  $headers,
         ]);
 
