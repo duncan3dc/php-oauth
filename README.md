@@ -13,14 +13,14 @@ Requirements
 * A connection to a database must be initiated using the global variable $sql
 * The active database must contain a table called oauth (or know about it via the definitions within the Sql class)
 * The table must have the following schema
-````
+```
 `type`      varchar(20),
 `username`  varchar(100),
 `state`     int(11),
 `token`     varchar(100),
 `secret`    varchar(100),
 UNIQUE KEY `type, username` (`type`,`username`)
-````
+```
 
 
 OAuth2
