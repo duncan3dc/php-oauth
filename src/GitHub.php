@@ -5,11 +5,11 @@ namespace duncan3dc\OAuth;
 use duncan3dc\Helpers\Helper;
 use duncan3dc\Helpers\Json;
 
-class GitHub extends OAuth2 {
+class GitHub extends OAuth2
+{
 
-
-    public function __construct($options) {
-
+    public function __construct($options)
+    {
         $options = Helper::getOptions($options, [
             "username"  =>  false,
             "client"    =>  "",
@@ -27,25 +27,23 @@ class GitHub extends OAuth2 {
             "redirectUrl"   =>  "http://developer.github.com/v3/",
             "accessUrl"     =>  "https://github.com/login/oauth/access_token",
         ]);
-
     }
 
 
-    public function fetch($url, $data = false, $headers = false) {
-
-        if(!is_array($headers)) {
+    public function fetch($url, $data = null, $headers = null)
+    {
+        if (!is_array($headers)) {
             $headers = [];
         }
         $headers["Accept"] = "application/vnd.github.v3+json";
         $headers["User-Agent"] = $this->username;
 
         return parent::fetch($url, $data, $headers);
-
     }
 
 
-    public function post($url, $data) {
-
+    public function post($url, $data)
+    {
         $headers = [
             "Accept"        =>  "application/vnd.github.v3+json",
             "User-Agent"    =>  $this->username,
@@ -61,8 +59,5 @@ class GitHub extends OAuth2 {
         ], Json::encode($data));
 
         return Json::decode($json);
-
     }
-
-
 }

@@ -5,11 +5,11 @@ namespace duncan3dc\OAuth;
 use duncan3dc\Helpers\Helper;
 use duncan3dc\Helpers\Json;
 
-class Instagram extends OAuth2 {
+class Instagram extends OAuth2
+{
 
-
-    public function __construct($options) {
-
+    public function __construct($options)
+    {
         $options = Helper::getOptions($options, [
             "client"    =>  "",
             "secret"    =>  "",
@@ -25,12 +25,11 @@ class Instagram extends OAuth2 {
             "redirectUrl"   =>  "https://api.instagram.com/oauth/redirect",
             "accessUrl"     =>  "https://api.instagram.com/oauth/access_token",
         ]);
-
     }
 
 
-    public function timeline($options = false) {
-
+    public function timeline($options = null)
+    {
         $options = Helper::getOptions($options, [
             "min"   =>  false,
             "limit" =>  200,
@@ -39,16 +38,13 @@ class Instagram extends OAuth2 {
         $url = "https://api.instagram.com/v1/users/self/feed";
 
         $params = [];
-        if($val = $options["min"]) {
+        if ($val = $options["min"]) {
             $params["min_id"] = $val;
         }
-        if($val = $options["limit"]) {
+        if ($val = $options["limit"]) {
             $params["count"] = $val;
         }
 
         return $this->fetch($url, $params);
-
     }
-
-
 }

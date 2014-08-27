@@ -4,11 +4,11 @@ namespace duncan3dc\OAuth;
 
 use duncan3dc\Helpers\Helper;
 
-class Twitter extends OAuth {
+class Twitter extends OAuth
+{
 
-
-    public function __construct($options = false) {
-
+    public function __construct($options = null)
+    {
         $options = Helper::getOptions($options, [
             "type"      =>  "twitter",
             "username"  =>  false,
@@ -25,12 +25,11 @@ class Twitter extends OAuth {
             "authkey"       =>  $options["authkey"],
             "secret"        =>  $options["secret"],
         ]);
-
     }
 
 
-    public function timeline($options = false) {
-
+    public function timeline($options = null)
+    {
         $options = Helper::getOptions($options, [
             "user"  =>  false,
             "since" =>  false,
@@ -41,7 +40,7 @@ class Twitter extends OAuth {
         $url = "https://api.twitter.com/1.1/statuses/";
         $params = [];
 
-        if($val = $options["user"]) {
+        if ($val = $options["user"]) {
             $url .= "user";
             $params["user_id"] = $val;
         } else {
@@ -49,28 +48,27 @@ class Twitter extends OAuth {
         }
         $url .= "_timeline.json";
 
-        if($val = $options["since"]) {
+        if ($val = $options["since"]) {
             $params["since_id"] = $val;
         }
-        if($val = $options["max"]) {
+        if ($val = $options["max"]) {
             $params["max_id"] = $val;
         }
-        if($val = $options["limit"]) {
+        if ($val = $options["limit"]) {
             $params["count"] = $val;
         }
 
         $url = Helper::url($url, $params);
 
         return $this->fetch($url);
-
     }
 
 
-    public function user($user) {
-
+    public function user($user)
+    {
         $url = "https://api.twitter.com/1.1/users/show.json";
 
-        if(preg_match("/[a-z]/i", $user)) {
+        if (preg_match("/[a-z]/i", $user)) {
             $type = "screen_name";
         } else {
             $type = "user_id";
@@ -81,17 +79,13 @@ class Twitter extends OAuth {
         ]);
 
         return $this->fetch($url);
-
     }
 
 
-    public function tweet($status) {
-
+    public function tweet($status)
+    {
         return $this->fetch("https://api.twitter.com/1.1/statuses/update.json", [
             "status"    =>  $status,
         ]);
-
     }
-
-
 }

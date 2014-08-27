@@ -6,8 +6,8 @@ use duncan3dc\Helpers\Cache;
 use duncan3dc\Helpers\Helper;
 use duncan3dc\Helpers\Json;
 
-class OAuth {
-
+class OAuth
+{
     const STATE_INIT        =   0;
     const STATE_ACCESS      =   1;
     const STATE_COMPLETE    =   2;
@@ -21,8 +21,8 @@ class OAuth {
     public  $authoriseUrl;
 
 
-    public function __construct($options) {
-
+    public function __construct($options)
+    {
         $options = Helper::getOptions($options, [
             "requestUrl"    =>  "",
             "accessUrl"     =>  "",
@@ -41,14 +41,13 @@ class OAuth {
         $this->requestUrl = $options["requestUrl"];
         $this->accessUrl = $options["accessUrl"];
         $this->authoriseUrl = $options["authoriseUrl"];
-
     }
 
 
-    public function authorise() {
-
+    public function authorise()
+    {
         # If no action has been taken yet then request authorisation to the users account
-        if($this->get("state") == static::STATE_INIT) {
+        if ($this->get("state") == static::STATE_INIT) {
             $result = $this->oauth->getRequestToken($this->requestUrl);
             $this->set([
                 "state"     =>  static::STATE_ACCESS,
@@ -56,7 +55,7 @@ class OAuth {
                 "secret"    =>  $result["oauth_token_secret"],
             ]);
             $url = $this->authoriseUrl;
-            if(!$url) {
+            if (!$url) {
                 $url = $result["login_url"];
             }
             $url .= "?oauth_token=" . $result["oauth_token"];
@@ -64,7 +63,7 @@ class OAuth {
         }
 
         # If access has been requested, then check that it was granted
-        if($this->get("state") == static::STATE_ACCESS) {
+        if ($this->get("state") == static::STATE_ACCESS) {
             $this->setToken();
             $result = $this->oauth->getAccessToken($this->accessUrl);
             $this->set([
@@ -75,35 +74,32 @@ class OAuth {
         }
 
         return false;
-
     }
 
 
-    public function get($key) {
-
+    public function get($key)
+    {
         $sql = Sql::getInstance();
 
-        if(Cache::check("data")) {
+        if (Cache::check("data")) {
             $data = Cache::get("data");
-
         } else {
             $data = $sql->select("oauth", [
                 "type"      =>  $this->type,
                 "username"  =>  $this->username,
             ]);
             Cache::set("data", $data);
-
         }
 
         return $data[$key];
     }
 
 
-    public function set($params, $value = false) {
-
+    public function set($params, $value = null)
+    {
         $sql = Sql::getInstance();
 
-        if(!is_array($params)) {
+        if (!is_array($params)) {
             $params = [$params => $value];
         }
 
@@ -113,25 +109,23 @@ class OAuth {
         ]);
 
         Cache::clear("data");
-
     }
 
 
-    public function setToken() {
-
+    public function setToken()
+    {
         $token = $this->get("token");
         $secret = $this->get("secret");
 
         return $this->oauth->setToken($token, $secret);
-
     }
 
 
-    public function fetch($url, $data = false) {
-
+    public function fetch($url, $data = null)
+    {
         $this->setToken();
 
-        if(is_array($data)) {
+        if (is_array($data)) {
             $method = OAUTH_HTTP_METHOD_POST;
         } else {
             $method = OAUTH_HTTP_METHOD_GET;
@@ -142,8 +136,5 @@ class OAuth {
         $json = $this->oauth->getLastResponse();
 
         return Json::decode($json);
-
     }
-
-
 }

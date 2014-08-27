@@ -5,8 +5,8 @@ use duncan3dc\Helpers\Cache;
 use duncan3dc\Helpers\Helper;
 use duncan3dc\Helpers\Json;
 
-class OAuth2 {
-
+class OAuth2
+{
     public  $type;
     public  $username;
     public  $client;
@@ -18,8 +18,8 @@ class OAuth2 {
     public  $accessUrl;
 
 
-    public function __construct($options) {
-
+    public function __construct($options)
+    {
         $options = Helper::getOptions($options, [
             "type"          =>  "",
             "username"      =>  "",
@@ -40,18 +40,17 @@ class OAuth2 {
         $this->authoriseUrl =   $options["authoriseUrl"];
         $this->redirectUrl  =   $options["redirectUrl"];
         $this->accessUrl    =   $options["accessUrl"];
-
     }
 
 
-    public function authorise() {
-
-        if($this->get("state") == OAuth::STATE_COMPLETE && !$this->get("token")) {
+    public function authorise()
+    {
+        if ($this->get("state") == OAuth::STATE_COMPLETE && !$this->get("token")) {
             $this->set("state", OAuth::STATE_INIT);
         }
 
         # If no action has been taken yet then request authorisation to the users account
-        if($this->get("state") == OAuth::STATE_INIT) {
+        if ($this->get("state") == OAuth::STATE_INIT) {
             $url = Helper::url($this->authoriseUrl, [
                 "client_id"     =>  $this->client,
                 "redirect_uri"  =>  $this->redirectUrl,
@@ -64,7 +63,7 @@ class OAuth2 {
         }
 
         # If access has been requested, then check that it was granted
-        if($this->get("state") == OAuth::STATE_ACCESS) {
+        if ($this->get("state") == OAuth::STATE_ACCESS) {
             $response = Helper::curl($this->accessUrl, [
                 "client_id"     =>  $this->client,
                 "client_secret" =>  $this->secret,
@@ -81,7 +80,7 @@ class OAuth2 {
                 $token = $matches[1];
             }
 
-            if(!$token) {
+            if (!$token) {
                 $this->set("state", OAuth::STATE_INIT);
                 throw new \Exception("Failed to parse the access token from the response (" . $response . ")");
             }
@@ -93,36 +92,32 @@ class OAuth2 {
         }
 
         return false;
-
     }
 
 
-    public function get($key) {
-
+    public function get($key)
+    {
         $sql = Sql::getInstance();
 
-        if(Cache::check("data")) {
+        if (Cache::check("data")) {
             $data = Cache::get("data");
-
         } else {
             $data = $sql->select("oauth", [
                 "type"      =>  $this->type,
                 "username"  =>  $this->username,
             ]);
             Cache::set("data", $data);
-
         }
 
         return $data[$key];
-
     }
 
 
-    public function set($params, $value = false) {
-
+    public function set($params, $value = null)
+    {
         $sql = Sql::getInstance();
 
-        if(!is_array($params)) {
+        if (!is_array($params)) {
             $params = [$params => $value];
         }
 
@@ -134,13 +129,12 @@ class OAuth2 {
         Cache::clear("data");
 
         return true;
-
     }
 
 
-    public function fetch($url, $data = false, $headers = false) {
-
-        if(!is_array($data)) {
+    public function fetch($url, $data = null, $headers = null)
+    {
+        if (!is_array($data)) {
             $data = [];
         }
         $data["access_token"] = $this->get("token");
@@ -151,8 +145,5 @@ class OAuth2 {
         ]);
 
         return Json::decode($json);
-
     }
-
-
 }

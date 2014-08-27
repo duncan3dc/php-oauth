@@ -4,13 +4,13 @@ namespace duncan3dc\OAuth;
 
 use duncan3dc\Helpers\Helper;
 
-class Lovefilm extends OAuth {
-
+class Lovefilm extends OAuth
+{
     protected $user;
 
 
-    public function __construct($options = false) {
-
+    public function __construct($options = null)
+    {
         $options = Helper::getOptions($options, [
             "authkey"   =>  "",
             "secret"    =>  "",
@@ -23,38 +23,33 @@ class Lovefilm extends OAuth {
             "authkey"       =>  $options["authkey"],
             "secret"        =>  $options["secret"],
         ]);
-
     }
 
 
-    public function getUser() {
-
-        if($this->user) {
+    public function getUser()
+    {
+        if ($this->user) {
             return $this->user;
         }
 
         $data = $this->fetch("http://openapi.lovefilm.com/users");
-        foreach($data["resource"]["links"] as $link) {
-            if($link["title"] == "current user") {
+        foreach ($data["resource"]["links"] as $link) {
+            if ($link["title"] == "current user") {
                 $this->user = $link["href"];
             }
         }
 
         return $this->user;
-
     }
 
 
-    public function getData($type = false) {
-
+    public function getData($type = null)
+    {
         $url = $this->getUser();
-        if($type) {
+        if ($type) {
             $url .= "/" . $type;
         }
 
         return $this->fetch($url);
-
     }
-
-
 }
