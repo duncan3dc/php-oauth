@@ -2,7 +2,7 @@
 
 namespace duncan3dc\OAuth;
 
-class Sql
+class Sql extends \duncan3dc\SqlClass\Sql
 {
     protected static $class;
 
@@ -13,9 +13,10 @@ class Sql
 
     public static function getInstance($server = null)
     {
-        if (!static::$class) {
-            throw new \Exception("No SQL class specified for the OAuth project");
+        if (static::$class) {
+            return call_user_func(static::$class . "::getInstance", $server);
+        } else {
+            return parent::getInstance($server);
         }
-        return call_user_func(static::$class . "::getInstance", $server);
     }
 }
