@@ -3,6 +3,8 @@ php-oauth
 
 Handles non-web based OAuth/OAuth2 authentication along with providers for common services
 
+[![Build Status](https://travis-ci.org/duncan3dc/php-oauth.svg?branch=master)](https://travis-ci.org/duncan3dc/php-oauth)
+
 __I really don't think you will find these classes useful, if you proceed then don't say I didn't warn you__
 You are likely looking for [thephpleague/oauth1-client](https://github.com/thephpleague/oauth1-client) or [thephpleague/oauth2-client](https://github.com/thephpleague/oauth2-client)
 
