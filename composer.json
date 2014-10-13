@@ -12,9 +12,10 @@
         "role": "Developer"
     }],
     "require": {
-        "duncan3dc/helpers": ">=1.0.13",
-        "duncan3dc/sql-class": ">=1.1.3",
-        "ext-OAuth": "*",
+        "duncan3dc/helpers": ">=1.3.6",
+        "duncan3dc/serial": ">=0.3.0",
+        "duncan3dc/sql-class": ">=1.5.3",
+        "ext-oauth": "*",
         "php": ">=5.4.0"
     },
     "autoload": {
