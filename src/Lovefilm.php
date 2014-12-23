@@ -9,7 +9,7 @@ class Lovefilm extends OAuth
     protected $user;
 
 
-    public function __construct($options = null)
+    public function __construct(array $options = null)
     {
         $options = Helper::getOptions($options, [
             "authkey"   =>  "",

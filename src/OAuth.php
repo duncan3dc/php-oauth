@@ -21,7 +21,7 @@ class OAuth
     public  $authoriseUrl;
 
 
-    public function __construct($options)
+    public function __construct(array $options)
     {
         $options = Helper::getOptions($options, [
             "requestUrl"    =>  "",
@@ -121,7 +121,7 @@ class OAuth
     }
 
 
-    public function fetch($url, $data = null)
+    public function fetch($url, array $data = null)
     {
         $this->setToken();
 

@@ -19,7 +19,7 @@ class OAuth2
     public  $accessUrl;
 
 
-    public function __construct($options)
+    public function __construct(array $options)
     {
         $options = Helper::getOptions($options, [
             "type"          =>  "",
@@ -133,7 +133,7 @@ class OAuth2
     }
 
 
-    public function fetch($url, $data = null, $headers = null)
+    public function fetch($url, array $data = null, array $headers = null)
     {
         if (!is_array($data)) {
             $data = [];

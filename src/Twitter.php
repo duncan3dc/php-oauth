@@ -7,7 +7,7 @@ use duncan3dc\Helpers\Helper;
 class Twitter extends OAuth
 {
 
-    public function __construct($options = null)
+    public function __construct(array $options = null)
     {
         $options = Helper::getOptions($options, [
             "type"      =>  "twitter",
@@ -28,7 +28,7 @@ class Twitter extends OAuth
     }
 
 
-    public function timeline($options = null)
+    public function timeline(array $options = null)
     {
         $options = Helper::getOptions($options, [
             "user"  =>  false,

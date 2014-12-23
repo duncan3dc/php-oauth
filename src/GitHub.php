@@ -8,7 +8,7 @@ use duncan3dc\Serial\Json;
 class GitHub extends OAuth2
 {
 
-    public function __construct($options)
+    public function __construct(array $options)
     {
         $options = Helper::getOptions($options, [
             "username"  =>  false,
@@ -30,7 +30,7 @@ class GitHub extends OAuth2
     }
 
 
-    public function fetch($url, $data = null, $headers = null)
+    public function fetch($url, array $data = null, array $headers = null)
     {
         if (!is_array($headers)) {
             $headers = [];
@@ -42,7 +42,7 @@ class GitHub extends OAuth2
     }
 
 
-    public function post($url, $data)
+    public function post($url, array $data)
     {
         $headers = [
             "Accept"        =>  "application/vnd.github.v3+json",

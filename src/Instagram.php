@@ -8,7 +8,7 @@ use duncan3dc\Serial\Json;
 class Instagram extends OAuth2
 {
 
-    public function __construct($options)
+    public function __construct(array $options)
     {
         $options = Helper::getOptions($options, [
             "client"    =>  "",
@@ -28,7 +28,7 @@ class Instagram extends OAuth2
     }
 
 
-    public function timeline($options = null)
+    public function timeline(array $options = null)
     {
         $options = Helper::getOptions($options, [
             "min"   =>  false,
