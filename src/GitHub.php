@@ -110,4 +110,34 @@ class GitHub extends OAuth2
 
         return Json::decode($json);
     }
+
+
+    /**
+     * Send a DELETE request and return the response.
+     *
+     * @param string $url The url to issue the request to (https://api.github.com is optional)
+     *
+     * @return array (usually empty)
+     */
+    public function delete($url)
+    {
+        $url = $this->getUrl($url);
+
+        $headers = [
+            "Accept"        =>  "application/vnd.github.v3+json",
+            "User-Agent"    =>  $this->username,
+        ];
+
+        $url = Helper::url($url, [
+            "access_token"  =>  $this->get("token"),
+        ]);
+
+        $json = Helper::curl([
+            "url"       =>  $url,
+            "headers"   =>  $headers,
+            "custom"    =>  "DELETE",
+        ]);
+
+        return Json::decode($json);
+    }
 }
