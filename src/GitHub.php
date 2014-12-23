@@ -39,6 +39,27 @@ class GitHub extends OAuth2
 
 
     /**
+     * Ensure a url has the api.github.com domain at the start.
+     *
+     * @param string $url The url to check
+     *
+     * @return string The modified url
+     */
+    protected function getUrl($url)
+    {
+        if (substr($url, 0, 4) === "http") {
+            return $url;
+        }
+
+        if (substr($url, 0, 1) !== "/") {
+            $url = "/" . $url;
+        }
+
+        return "https://api.github.com" . $url;
+    }
+
+
+    /**
      * Send a GET request and return the response.
      *
      * @param string $url The url to issue the request to (https://api.github.com is optional)
@@ -49,6 +70,8 @@ class GitHub extends OAuth2
      */
     public function fetch($url, array $data = null, array $headers = null)
     {
+        $url = $this->getUrl($url);
+
         if (!is_array($headers)) {
             $headers = [];
         }
@@ -69,6 +92,8 @@ class GitHub extends OAuth2
      */
     public function post($url, array $data)
     {
+        $url = $this->getUrl($url);
+
         $headers = [
             "Accept"        =>  "application/vnd.github.v3+json",
             "User-Agent"    =>  $this->username,
