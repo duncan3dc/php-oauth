@@ -20,5 +20,8 @@
     },
     "autoload": {
         "psr-4": {"duncan3dc\\OAuth\\": "src/"}
+    },
+     "autoload-dev": {
+        "psr-4": {"duncan3dc\\OAuth\\": "tests"}
     }
 }
