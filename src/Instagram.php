@@ -35,7 +35,7 @@ class Instagram extends OAuth2
             "limit" =>  200,
         ]);
 
-        $url = "https://api.instagram.com/v1/users/self/feed";
+        $url = "https://api.instagram.com/v1/users/self/media/recent";
 
         $params = [];
         if ($val = $options["min"]) {
