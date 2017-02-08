@@ -31,6 +31,7 @@ class Twitter extends OAuth
     public function timeline(array $options = null)
     {
         $options = Helper::getOptions($options, [
+            "mode"  =>  "extended",
             "user"  =>  false,
             "since" =>  false,
             "max"   =>  false,
@@ -56,6 +57,9 @@ class Twitter extends OAuth
         }
         if ($val = $options["limit"]) {
             $params["count"] = $val;
+        }
+        if ($val = $options["mode"]) {
+            $params["tweet_mode"] = $val;
         }
 
         $url = Helper::url($url, $params);
