@@ -18,7 +18,13 @@
         "ext-oauth": "*",
         "php": ">=5.4.0"
     },
+    "require-dev": {
+        "phpunit/phpunit": "^5.7.1"
+    },
     "autoload": {
         "psr-4": {"duncan3dc\\OAuth\\": "src/"}
+    },
+    "autoload-dev": {
+        "psr-4": {"duncan3dc\\OAuthTests\\": "tests/"}
     }
 }

@@ -21,8 +21,8 @@ install:
   - composer update $COMPOSER_OPTS
 
 script:
-  - phpunit tests
-  - ./tests/lint.sh
+  - vendor/bin/phpunit
+  - tests/lint.sh
 
 git:
   depth: 5
