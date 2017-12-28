@@ -14,6 +14,20 @@ matrix:
       env: oauth=oauth COMPOSER_OPTS=""
     - php: 7.0
       env: oauth=oauth COMPOSER_OPTS="--prefer-lowest"
+    - php: 7.1
+      env: oauth=oauth COMPOSER_OPTS=""
+    - php: 7.1
+      env: oauth=oauth COMPOSER_OPTS="--prefer-lowest"
+    - php: 7.2
+      env: oauth=oauth COMPOSER_OPTS=""
+    - php: 7.2
+      env: oauth=oauth COMPOSER_OPTS="--prefer-lowest"
+    - php: nightly
+      env: oauth=oauth COMPOSER_OPTS=""
+    - php: nightly
+      env: oauth=oauth COMPOSER_OPTS="--prefer-lowest"
+  allow_failures:
+    - php: nightly
 
 install:
   - pecl install $oauth
